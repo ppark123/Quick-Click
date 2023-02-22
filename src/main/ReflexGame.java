@@ -40,7 +40,7 @@ public class ReflexGame {
 
     //EFFECTS: returns true if the block is still alive
     public boolean isGameOver(){
-        return block.isAlive();
+        return !block.isAlive();
     }
 
     //EFFECTS: creates a new block at a random x and y position on the board
@@ -50,7 +50,15 @@ public class ReflexGame {
         return new Block(x, y, lifespan);
     }
 
+    public int getBlockNumber() {
+        return this.blockNumber;
+    }
 
+    public int getLifespan() {
+        return this.lifespan;
+    }
 
-
+    public Block getBlock() {
+        return this.block;
+    }
 }

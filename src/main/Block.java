@@ -23,7 +23,7 @@ public class Block {
     //EFFECTS: decrements the lifespan of the block every second
     public void updateLifeSpan() {
         if (lifespan - 1 > 0) {
-            lifespan--;
+            lifespan -= 1;
         } else {
             lifespan = 0;
         }

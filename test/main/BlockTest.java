@@ -8,8 +8,10 @@ import java.awt.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BlockTest {
+
     private Block b;
     private int lifespan = 5;
+
     @BeforeEach
     void runBefore(){
         b = new Block(10, 10, lifespan);

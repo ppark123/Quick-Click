@@ -7,7 +7,7 @@ public class Block {
     private static final int SIZE = 10;
     private int lifespan;
     private static Color BLOCK_COLOR;
-    private boolean alive;
+    private boolean clicked;
     private int x_pos;
     private int y_pos;
 
@@ -15,7 +15,7 @@ public class Block {
     public Block(int x, int y, int lifespan){
         this.lifespan = lifespan;
         this.BLOCK_COLOR = new Color(86, 178, 86);
-        this.alive = true;
+        this.clicked = false;
         this.x_pos = x;
         this.y_pos = y;
     }
@@ -26,16 +26,15 @@ public class Block {
             lifespan--;
         } else {
             lifespan = 0;
-            this.alive = false;
         }
     }
 
     //EFFECTS: updates the lifespan as well as the color of the block when the time is less than 5 seconds
-    public void update() {
+    public void updateBlock() {
+        updateLifeSpan();
         if (lifespan < 5) {
             changeColor();
         }
-        updateLifeSpan();
     }
 
     //EFFECTS: changes the color of the block from green to red
@@ -45,7 +44,15 @@ public class Block {
 
     //EFFECTS: returns the true if the block is still alive, false when the user fails to click it on time
     public boolean isAlive() {
-        return alive;
+        return !(lifespan==0);
+    }
+
+    public void setClicked() {
+        this.clicked = true;
+    }
+
+    public boolean clicked() {
+        return this.clicked;
     }
 
     //EFFECTS: returns the x position of the block

@@ -20,9 +20,12 @@ public class ReflexGame {
 
     //EFFECTS: updates the board conditions every second
     public void update() {
-        block.update();
-        updateLifeSpan();
-        newBlock();
+        block.updateBlock();
+        if (block.clicked()) {
+            updateBlockNumber();
+            updateLifeSpan();
+            newBlock();
+        }
     }
 
     //EFFECTS: decrements the block number once the previous block has been clicked on time
@@ -46,6 +49,8 @@ public class ReflexGame {
         int y = randomNumber.nextInt(BOARD_SIZE);
         return new Block(x, y, lifespan);
     }
+
+
 
 
 }

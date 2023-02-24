@@ -4,7 +4,7 @@ import java.util.Random;
 
 //A reflex game that includes a clicking on a set of ten blocks in the shortest time possible
 public class ReflexGame {
-    public static final int BOARD_SIZE = 30;
+    public static final int BOARD_SIZE = 500;
     private Random randomNumber;
     private Block block;
     private int blockNumber;

@@ -45,8 +45,9 @@ public class ReflexGame {
 
     //EFFECTS: creates a new block at a random x and y position on the board
     private Block newBlock() {
-        int x = randomNumber.nextInt(BOARD_SIZE);
-        int y = randomNumber.nextInt(BOARD_SIZE);
+        int lowerBound = block.SIZE/2;
+        int x = randomNumber.nextInt(BOARD_SIZE - lowerBound) + lowerBound;
+        int y = randomNumber.nextInt(BOARD_SIZE - lowerBound) + lowerBound;
         return new Block(x, y, lifespan);
     }
 

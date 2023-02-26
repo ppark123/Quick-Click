@@ -4,7 +4,7 @@ import java.awt.*;
 
 //Block class that creates the block that the user has to click
 public class Block {
-    public static final int SIZE = 10;
+    public static final int SIZE = 30;
     private int lifespan;
     private static Color BLOCK_COLOR;
     private boolean clicked;
@@ -44,7 +44,7 @@ public class Block {
 
     //EFFECTS: returns the true if the block is still alive, false when the user fails to click it on time
     public boolean isAlive() {
-        return !(lifespan==0);
+        return (lifespan!=0);
     }
 
     public void setClicked() {
@@ -77,5 +77,9 @@ public class Block {
 
     public int getSize() {
         return SIZE;
+    }
+
+    public void changeClicked() {
+        clicked = true;
     }
 }

@@ -5,11 +5,10 @@ import java.util.Random;
 //A reflex game that includes a clicking on a set of ten blocks in the shortest time possible
 public class ReflexGame {
     public static final int BOARD_SIZE = 500;
-    private Random randomNumber;
+    private final Random randomNumber;
     private Block block;
     private int blockNumber;
     private int lifespan;
-    private boolean gameWon = false;
 
     //EFFECTS: creates a new instance of a reflexgame
     public ReflexGame() {
@@ -51,9 +50,13 @@ public class ReflexGame {
 
     //EFFECTS: creates a new block at a random x and y position on the board
     private Block newBlock() {
-        int lowerBound = block.SIZE/2;
-        int x = randomNumber.nextInt(BOARD_SIZE-lowerBound)+lowerBound;
-        int y = randomNumber.nextInt(BOARD_SIZE - lowerBound) + lowerBound;
+        int lowerBound = Block.SIZE;
+        int x = randomNumber.nextInt(BOARD_SIZE-lowerBound);
+        if (x<lowerBound) x+=lowerBound;
+        int y = randomNumber.nextInt(BOARD_SIZE - lowerBound);
+        if (y<lowerBound) y+=lowerBound;
+        System.out.println("xcoord: " + x);
+        System.out.println("Ycoord: " + y);
         return new Block(x, y, lifespan);
     }
 

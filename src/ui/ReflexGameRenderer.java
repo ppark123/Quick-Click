@@ -8,7 +8,7 @@ import java.awt.*;
 public class ReflexGameRenderer {
     private ReflexGame game;
 
-    //sets the member variable game equal to the pre-exisitng game
+    //sets the member variable game equal to the pre-existing game
     public ReflexGameRenderer(ReflexGame game){
         this.game = game;
     }
@@ -20,9 +20,11 @@ public class ReflexGameRenderer {
 
     //EFFECTS: renders the Block as a rectangle onto the screen with color and size
     private void renderBlock(Graphics g) {
-        g.setColor(game.getBlock().get_Color());
-        final int SIZE = game.getBlock().getSize();
-        g.fillRect(game.getBlock().get_X(), game.getBlock().get_Y(), SIZE,SIZE);
+        if (!game.gameWon()) {
+            g.setColor(game.getBlock().get_Color());
+            final int SIZE = game.getBlock().getSize();
+            g.fillRect(game.getBlock().get_X(), game.getBlock().get_Y(), SIZE, SIZE);
+        }
     }
 
 }

@@ -9,6 +9,7 @@ public class ReflexGame {
     private Block block;
     private int blockNumber;
     private int lifespan;
+    private boolean gameWon = false;
 
     //EFFECTS: creates a new instance of a reflexgame
     public ReflexGame() {
@@ -24,7 +25,7 @@ public class ReflexGame {
         if (block.clicked()) {
             updateBlockNumber();
             updateLifeSpan();
-            newBlock();
+            block = newBlock();
         }
     }
 
@@ -43,10 +44,15 @@ public class ReflexGame {
         return !block.isAlive();
     }
 
+    //EFFECTS: returns true if the block is still alive
+    public boolean gameWon(){
+        return (blockNumber==0);
+    }
+
     //EFFECTS: creates a new block at a random x and y position on the board
     private Block newBlock() {
         int lowerBound = block.SIZE/2;
-        int x = randomNumber.nextInt(BOARD_SIZE - lowerBound) + lowerBound;
+        int x = randomNumber.nextInt(BOARD_SIZE-lowerBound)+lowerBound;
         int y = randomNumber.nextInt(BOARD_SIZE - lowerBound) + lowerBound;
         return new Block(x, y, lifespan);
     }

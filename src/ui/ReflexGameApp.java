@@ -11,12 +11,10 @@ import java.awt.event.MouseEvent;
 
 //GUI based on SnakeWithBugs; link below:
 public class ReflexGameApp extends JFrame {
-    private static final String instText = "Press start to begin the game";
-    private static final String startText = "Start";
     private static ReflexGame game;
-    private ReflexGameRenderer renderer;
+    private final ReflexGameRenderer renderer;
     private int size;
-    private int TIME_LIMIT = 1000;
+    private int TIME_LIMIT = 200;
 
     public ReflexGameApp() {
         super("Reflex Game");
@@ -29,9 +27,10 @@ public class ReflexGameApp extends JFrame {
     }
 
     private void initializeGraphics() {
-        this.setSize(new Dimension(size, size));
+        this.setMinimumSize(new Dimension(size, size));
+        this.setMaximumSize(new Dimension(size, size));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLayout(new BorderLayout());
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
@@ -49,7 +48,7 @@ public class ReflexGameApp extends JFrame {
 
 @Override
     public void paint(Graphics graphics) {
-        super.paint(graphics);
+        graphics.setColor(new Color(40, 40, 40));
         graphics.fillRect(0,0, size, size);
         renderer.render(graphics);
     }
@@ -60,21 +59,54 @@ public class ReflexGameApp extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (game.isGameOver()) {
+                    showGameOver();
                     timer.stop();
+                    System.out.println("Game Over");
+                } else if (game.gameWon()) {
+                    showGameWon();
+                    timer.stop();
+                    System.out.println("You Won!");
                 } else {
                     game.update();
                     repaint();
                 }
             }
-        }
-        );
+        });
         timer.start();
     }
 
-    private void setUpFrame() {
-        this.pack();
+    private void showGameWon() {
+        //display timer
+
+    }
+
+    private void showGameOver() {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BorderLayout(1,1));
+        buttonPanel.setPreferredSize(new Dimension(size, size));
+        JButton gameOverButton = gameOverButton();
+        buttonPanel.add(gameOverButton, BorderLayout.CENTER);
+        this.add(buttonPanel, BorderLayout.CENTER);
         this.setLocationRelativeTo(null);
-        this.setVisible(true);
+        buttonPanel.setVisible(true);
+    }
+
+    private JButton gameOverButton() {
+        JButton gameOverButton = new JButton("Game Over");
+        gameOverButton.setActionCommand("game_over");
+        gameOverButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int option = JOptionPane.showConfirmDialog(null,
+                        "Do you want to restart?",
+                        "Game Over",
+                        JOptionPane.YES_NO_OPTION);
+                if (option == 0) {
+                } else {
+                }
+            }
+        });
+        return gameOverButton;
     }
 
     private void clearFrame() {
@@ -84,10 +116,11 @@ public class ReflexGameApp extends JFrame {
     private class MouseHandler extends MouseAdapter {
         @Override
         public void mouseClicked(MouseEvent e) {
-            if (e.getX() >= (game.getBlock().get_X()-game.getBlock().getSize()) &&
-                    e.getX() <= (game.getBlock().get_X()+game.getBlock().getSize()) &&
-                    e.getY() >= (game.getBlock().get_Y()-game.getBlock().getSize()) &&
-                    e.getY() <= (game.getBlock().get_Y()+game.getBlock().getSize())) {
+            int block_X = game.getBlock().get_X();
+            int block_Y = game.getBlock().get_Y();
+            int blockSize = game.getBlock().getSize();
+            if (e.getX() >= (block_X-blockSize) && e.getX() <= (block_X+blockSize) && e.getY() >= (block_Y-blockSize) &&
+                    e.getY() <= (block_Y+blockSize)) {
                 game.getBlock().changeClicked();
             }
         }

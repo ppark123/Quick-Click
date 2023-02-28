@@ -33,24 +33,21 @@ public class ReflexGameApp extends JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
-
-//    private JButton startButton() {
-//        JButton button = new JButton("Start");
-//        button.setBounds(size/2, size/2, size/2, 100);
-//        button.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                startGamePanel();
-//            }
-//        });
-//        return button;
-//    }
-
+    
 @Override
     public void paint(Graphics graphics) {
-        graphics.setColor(new Color(40, 40, 40));
-        graphics.fillRect(0,0, size, size);
-        renderer.render(graphics);
+     if (!game.isGameOver() && !game.gameWon()) {
+            graphics.setColor(new Color(47, 66, 110));
+            graphics.fillRect(0, 0, size, size);
+            renderer.render(graphics);
+        } else if (game.gameWon()) {
+         graphics.drawString("You won!", this.getX()/2, this.getY()/2);
+         graphics.setColor(new Color(0, 0, 0));
+        } else {
+            graphics.drawString("Game Over", this.getX()/2, this.getY()/2);
+            graphics.setColor(new Color(0, 0, 0));
+
+     }
     }
 
     private void createTimer() {
@@ -59,7 +56,6 @@ public class ReflexGameApp extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (game.isGameOver()) {
-                    showGameOver();
                     timer.stop();
                     System.out.println("Game Over");
                 } else if (game.gameWon()) {
@@ -75,38 +71,17 @@ public class ReflexGameApp extends JFrame {
         timer.start();
     }
 
+    private void displayGameOver() {
+        clearFrame();
+        JLabel gameOverLabel = new JLabel("Game Over");
+        gameOverLabel.setForeground(Color.RED);
+        this.add(gameOverLabel);
+
+    }
+
     private void showGameWon() {
         //display timer
 
-    }
-
-    private void showGameOver() {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BorderLayout(1,1));
-        buttonPanel.setPreferredSize(new Dimension(size, size));
-        JButton gameOverButton = gameOverButton();
-        buttonPanel.add(gameOverButton, BorderLayout.CENTER);
-        this.add(buttonPanel, BorderLayout.CENTER);
-        this.setLocationRelativeTo(null);
-        buttonPanel.setVisible(true);
-    }
-
-    private JButton gameOverButton() {
-        JButton gameOverButton = new JButton("Game Over");
-        gameOverButton.setActionCommand("game_over");
-        gameOverButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int option = JOptionPane.showConfirmDialog(null,
-                        "Do you want to restart?",
-                        "Game Over",
-                        JOptionPane.YES_NO_OPTION);
-                if (option == 0) {
-                } else {
-                }
-            }
-        });
-        return gameOverButton;
     }
 
     private void clearFrame() {
@@ -119,7 +94,7 @@ public class ReflexGameApp extends JFrame {
             int block_X = game.getBlock().get_X();
             int block_Y = game.getBlock().get_Y();
             int blockSize = game.getBlock().getSize();
-            if (e.getX() >= (block_X-blockSize) && e.getX() <= (block_X+blockSize) && e.getY() >= (block_Y-blockSize) &&
+            if (e.getX() >= block_X && e.getX() <= (block_X+blockSize) && e.getY() >= block_Y &&
                     e.getY() <= (block_Y+blockSize)) {
                 game.getBlock().changeClicked();
             }

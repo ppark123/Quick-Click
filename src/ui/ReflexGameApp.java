@@ -4,8 +4,6 @@ import main.ReflexGame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Scanner;
@@ -18,6 +16,7 @@ public class ReflexGameApp extends JFrame {
     private int TIME_LIMIT = 200;
     private Scanner scanner;
     private long timeStart;
+    int FPS = 60;
 
 
     public ReflexGameApp() {
@@ -66,23 +65,39 @@ public class ReflexGameApp extends JFrame {
     }
 
     private void createTimer() {
-        Timer timer = new Timer(TIME_LIMIT, null);
-        timer.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (game.isGameOver()) {
-                    timer.stop();
-                    System.out.println("Game Over");
-                } else if (game.gameWon()) {
-                    timer.stop();
-                    System.out.println("You Won!");
-                } else {
-                    game.update();
-                    repaint();
-                }
+        double interval = 1000000000/FPS;
+        double delta = 0;
+        long lastTime = System.nanoTime();
+        long currentTime;
+        while (!game.isGameOver() && !game.gameWon()) {
+            currentTime = System.nanoTime();
+            delta+=(currentTime - lastTime) / interval;
+            lastTime = currentTime;
+            if (delta>=1){
+                game.update();
+                repaint();
+                delta--;
             }
-        });
-        timer.start();
+        }
+
+//        Timer timer = new Timer(TIME_LIMIT, null);
+//
+//        timer.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if (game.isGameOver()) {
+//                    timer.stop();
+//                    System.out.println("Game Over");
+//                } else if (game.gameWon()) {
+//                    timer.stop();
+//                    System.out.println("You Won!");
+//                } else {
+//                    game.update();
+//                    repaint();
+//                }
+//            }
+//        });
+//        timer.start();
     }
 
     private void displayGameOver() {

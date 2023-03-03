@@ -13,7 +13,7 @@ public class ReflexGame {
     //EFFECTS: creates a new instance of a reflexgame
     public ReflexGame() {
         randomNumber = new Random();
-        lifespan = 15;
+        lifespan = 120;
         blockNumber = 10;
         block = newBlock();
     }
@@ -35,7 +35,7 @@ public class ReflexGame {
 
     //EFFECTS: updates the lifespan of the to be made block (decreases lifespan to make it harder)
     public void updateLifeSpan() {
-        if (this.lifespan - 1 > 0) this.lifespan--;
+        if (this.lifespan - 1 > 0) this.lifespan-=5;
     }
 
     //EFFECTS: returns true if the block is still alive
